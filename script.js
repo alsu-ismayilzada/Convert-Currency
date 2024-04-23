@@ -2,52 +2,91 @@ let currentCurrency = document.querySelectorAll(".left .buttons div");
 let selectedCurrency = document.querySelectorAll(".right .buttons div");
 let inputRight = document.querySelector(".right input");
 let inputLeft = document.querySelector(".left input");
+let pLeft = document.querySelector(".left .content p");
+let pRight = document.querySelector(".right .content p");
 
-fetch("https://v6.exchangerate-api.com/v6/333b1f550ae7d8a0c7fc6f9a/latest/RUB")
-.then(res => res.json())
-.then(data => console.log(data.conversion_rates.USD));
+let currentValue = "RUB";
+let selectedValue = "USD";
+let isActive = "inputLeft";
 
-currentCurrency.forEach((item)=>{
-    item.addEventListener("click",()=>{
-        item.style.backgroundColor="purple";
-        fetch( `https://v6.exchangerate-api.com/v6/333b1f550ae7d8a0c7fc6f9a/latest/${item.innerHTML}`)
+function updateConversion() {
+    if(isActive == "inputLeft" ){
+    fetch(`https://v6.exchangerate-api.com/v6/79761deae2c772e1188646a0/latest/${currentValue}`)
+    .then(res => res.json())
+    .then(data => {
+        inputRight.value = data.conversion_rates[selectedValue] * inputLeft.value;
+    });
+}else{
+    fetch(`https://v6.exchangerate-api.com/v6/79761deae2c772e1188646a0/latest/${selectedValue}`)
         .then(res => res.json())
-        .then(data =>{
-            inputRight.value=(data.conversion_rates.USD*(inputLeft.value))
-            selectedCurrency.forEach((x)=>{
-                x.addEventListener("click",()=>{
-                    x.style.backgroundColor="purple";
-                    let z = x.innerHTML;
-                    console.log(z);
-                    console.log(data.conversion_rates.x.innerHTML);
-                    inputRight.value = data.conversion_rates.z*(inputLeft.value);
-        })
-            
-    })      
+        .then(data => {
+        inputLeft.value = data.conversion_rates[currentValue] * inputRight.value;
+    });
+}
+}
 
-})
-    })
-})
+currentCurrency.forEach(item => {
+    item.addEventListener("click", () => {
+        currentCurrency.forEach(el => {
+            el.style.backgroundColor = "";
+            el.style.color = ""}); 
+        item.style.backgroundColor = "rgb(131, 58, 224)";
+        item.style.color = "white";
+        currentValue = item.innerHTML;
+        updateConversion();
+        fetch(`https://v6.exchangerate-api.com/v6/79761deae2c772e1188646a0/latest/${currentValue}`)
+        .then(res => res.json())
+        .then(data => {
+         pLeft.innerHTML= `1 ${currentValue} = ${data.conversion_rates[selectedValue]} ${selectedValue} `
+       })
+       fetch(`https://v6.exchangerate-api.com/v6/79761deae2c772e1188646a0/latest/${selectedValue}`)
+        .then(res => res.json())
+        .then(data => {
+         pRight.innerHTML= `1 ${selectedValue} = ${data.conversion_rates[currentValue]} ${currentValue} `
+       })
 
-
-// selectedCurrency.forEach((item)=>{
-//     item.addEventListener("click",()=>{
-
-//         fetch( https://api.exchangerate.host/latest?base=${item.innerHTML}&symbols=RUB)
-//         .then(res => res.json())
-//         .then(data => input.innerHTML=data);
-
-//         console.log(item.innerHTML);
-//         currentCurrency.forEach((x)=>{
-//             x.addEventListener("click",()=>{
+    });
     
-//         fetch( https://api.exchangerate.host/latest?base=${item.innerHTML}&symbols=${x.innerHTML})
-//         .then(res => res.json())
-//         .then(data => input.innerHTML=data);
+});
 
-//     })      
+selectedCurrency.forEach(item => {
+    item.addEventListener("click", () => {
+        selectedCurrency.forEach(el => {
+            el.style.backgroundColor = "";
+            el.style.color = ""}); 
+        item.style.backgroundColor = "rgb(131, 58, 224)";
+        item.style.color = "white";
+        selectedValue = item.innerHTML;
+        updateConversion();
+        fetch(`https://v6.exchangerate-api.com/v6/79761deae2c772e1188646a0/latest/${currentValue}`)
+        .then(res => res.json())
+        .then(data => {
+         pLeft.innerHTML= `1 ${currentValue} = ${data.conversion_rates[selectedValue]} ${selectedValue} `
+       })
+       fetch(`https://v6.exchangerate-api.com/v6/79761deae2c772e1188646a0/latest/${selectedValue}`)
+        .then(res => res.json())
+        .then(data => {
+         pRight.innerHTML= `1 ${selectedValue} = ${data.conversion_rates[currentValue]} ${currentValue} `
+       })
+    });
+});
+inputLeft.addEventListener("input",()=>{
+    if( /^(\d*\.?\d*|\d*,?\d*)$/.test(inputLeft.value)){
+      if(inputLeft.value.indexOf(',') != -1){
+        inputLeft.value = inputLeft.value.split(",").join(".");
+        console.log(inputLeft.value);
+        isActive = "inputLeft";
+      }
+      updateConversion();
 
-//     })
-// })
+    }else{
+        inputLeft.value=inputLeft.value.slice(0, inputLeft.value.length-1);
+    }
+    
+})
+inputRight.addEventListener("input",()=>{
+    isActive = "inputRight";
+    updateConversion();
+})
 
-// })
+updateConversion();
