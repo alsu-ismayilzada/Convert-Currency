@@ -74,14 +74,6 @@ p{
     display: flex;
     
 }
-.left .buttons div:first-child{
-    background-color: rgb(131, 58, 224);
-    color: white;
-}
-.right .buttons div:nth-child(2){
-    background-color: rgb(131, 58, 224);
-    color: white;
-}
 .buttons div{
     font-size: 12px;
     font-weight: 400;
@@ -91,6 +83,10 @@ p{
     padding: 5px 0;
     border: 0.5px solid rgb(230, 222, 222);
     
+}
+.purple-button{
+    color: white !important; 
+    background-color: rgb(131, 58, 224);
 }
 .buttons div:first-child{
     border-top-left-radius: 3px;
