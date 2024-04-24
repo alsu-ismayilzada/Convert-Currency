@@ -122,3 +122,11 @@ input{
     font-size: 12px;
     font-family: "Roboto", sans-serif;
 }
+.err{
+    display: none;
+    color: red;
+    margin-top: 40px;
+    font-size: 22px;
+    font-weight: 500;
+    font-family: "Roboto", sans-serif;
+}
