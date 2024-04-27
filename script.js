@@ -11,12 +11,12 @@ let selectedValue = "USD";
 let isActive = "inputLeft";
 inputLeft.value = 1;
 
-fetch(`https://v6.exchangerate-api.com/v6/9e7d284ce57596813ba6df0a/latest/${currentValue}`)
+fetch(`https://v6.exchangerate-api.com/v6/431fda9f786d95fb62e0f429/latest/${currentValue}`)
         .then(res => res.json())
         .then(data => {
          pLeft.innerHTML= `1 ${currentValue} = ${data.conversion_rates[selectedValue]} ${selectedValue} `
        })
-       fetch(`https://v6.exchangerate-api.com/v6/9e7d284ce57596813ba6df0a/latest/${selectedValue}`)
+       fetch(`https://v6.exchangerate-api.com/v6/431fda9f786d95fb62e0f429/latest/${selectedValue}`)
         .then(res => res.json())
         .then(data => {
          pRight.innerHTML= `1 ${selectedValue} = ${data.conversion_rates[currentValue]} ${currentValue} `
@@ -25,7 +25,7 @@ fetch(`https://v6.exchangerate-api.com/v6/9e7d284ce57596813ba6df0a/latest/${curr
 function updateConversion() {
     console.log("A request is sent to the server");
     if(isActive == "inputLeft" ){
-    fetch(`https://v6.exchangerate-api.com/v6/9e7d284ce57596813ba6df0a/latest/${currentValue}`)
+    fetch(`https://v6.exchangerate-api.com/v6/431fda9f786d95fb62e0f429/latest/${currentValue}`)
     .then(res => {
         if (res.ok) {
             errMessage.style.display="none";
@@ -46,7 +46,7 @@ function updateConversion() {
         errMessage.style.display="block";
     });
 }else{
-    fetch(`https://v6.exchangerate-api.com/v6/9e7d284ce57596813ba6df0a/latest/${selectedValue}`)
+    fetch(`https://v6.exchangerate-api.com/v6/431fda9f786d95fb62e0f429/latest/${selectedValue}`)
         .then(res => res.json())
         .then(data => {
             let x = (data.conversion_rates[currentValue] * inputRight.value).toString();
@@ -61,12 +61,12 @@ function updateConversion() {
 }
 }
 function updateInfo(){
-    fetch(`https://v6.exchangerate-api.com/v6/9e7d284ce57596813ba6df0a/latest/${currentValue}`)
+    fetch(`https://v6.exchangerate-api.com/v6/431fda9f786d95fb62e0f429/latest/${currentValue}`)
     .then(res => res.json())
     .then(data => {
      pLeft.innerHTML= `1 ${currentValue} = ${data.conversion_rates[selectedValue]} ${selectedValue} `
    })
-   fetch(`https://v6.exchangerate-api.com/v6/9e7d284ce57596813ba6df0a/latest/${selectedValue}`)
+   fetch(`https://v6.exchangerate-api.com/v6/431fda9f786d95fb62e0f429/latest/${selectedValue}`)
     .then(res => res.json())
     .then(data => {
      pRight.innerHTML= `1 ${selectedValue} = ${data.conversion_rates[currentValue]} ${currentValue} `
@@ -151,24 +151,5 @@ inputRight.addEventListener("input",()=>{
         inputRight.value=inputRight.value.slice(0, inputRight.value.length-1);
       }
 })
-
-// async function exampleAsyncFunction() {
-//     try {
-//         // Asynchronously fetch data from an API
-//         const response = await fetch('https://v6.exchangerate-api.com/v6/9e7d284ce57596813ba6df0a/latest/**');
-        
-//         // If the response is successful, parse the JSON data
-//         if (response.ok) {
-//             const data = await response.json();
-//             console.log(data);
-//         } else {
-//             throw new Error(`API Error: ${response.status}`);
-//         }
-//     } catch (error) {
-//         console.error(error.message);
-//     }
-// }
-// exampleAsyncFunction();
-
 
 updateConversion();
