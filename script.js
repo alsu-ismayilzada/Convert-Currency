@@ -142,11 +142,18 @@ inputLeft.addEventListener("input",()=>{
 inputRight.addEventListener("input",()=>{
     if( /^(\d*\.?\d*|\d*,?\d*)$/.test(inputRight.value)){
         isActive = "inputRight";
-        if(inputRight.value.indexOf(',') != -1){
-          inputRight.value = inputRight.value.split(",").join(".");
-          console.log(inputRight.value);
+        if(inputRight.value[0] == 0){
+            if(/^[0-9]+$/.test(inputRight.value[1])){
+                inputRight.value=inputRight.value.slice(0, inputRight.value.length-1);
+            }
+        }else if(inputRight.value[0] == "." || inputRight.value[0] == "," ){
+            inputRight.value = 0 + ".";
         }
-        updateConversion();
+          if(inputRight.value.indexOf(',') != -1){
+            inputRight.value = inputRight.value.split(",").join(".");
+            console.log(inputRight.value);
+          }
+          updateConversion();
       }else{
         inputRight.value=inputRight.value.slice(0, inputRight.value.length-1);
       }
