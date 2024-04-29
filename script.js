@@ -47,7 +47,11 @@ function updateConversion() {
     });
 }else{
     fetch(`https://v6.exchangerate-api.com/v6/431fda9f786d95fb62e0f429/latest/${selectedValue}`)
-        .then(res => res.json())
+        .then(res =>{
+            if (res.ok) {
+                 errMessage.style.display="none";
+            }
+            return res.json()})
         .then(data => {
             let x = (data.conversion_rates[currentValue] * inputRight.value).toString();
         let decimalIndex = x.indexOf('.');
@@ -57,6 +61,10 @@ function updateConversion() {
             inputLeft.value = x.slice(0, decimalIndex + 6);
         }
         pLeft.innerHTML= `1 ${currentValue} = ${data.conversion_rates[selectedValue]} ${selectedValue} `
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+        errMessage.style.display="block";
     });
 }
 }
